@@ -1,0 +1,149 @@
+body {
+  background-color: #4885ed;
+  font: 16px/1.5 "Playfair Display", "Times New Roman", serif;
+  color: #333;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1;
+}
+
+p {
+  margin: 0 0 24px;
+}
+
+.main {
+  display: flex;
+  flex-flow: column;
+  height: 100vh;
+}
+
+header {
+  margin: 0;
+  display: block;
+  text-align: center;
+  padding: 60px 0 30px;
+  background-color: #e8e8e8;
+}
+
+header h1 {
+  font-size: 60px;
+  margin: 0 0 10px;
+}
+
+header p {
+  font-size: 23px;
+}
+
+header input {
+  font-size: 14px;
+  width: 425px;
+  border: 1px solid #ccc;
+  padding: 9px 12px;
+  outline: none;
+  color: #666;
+}
+
+header input:focus {
+  border: 1px solid #4885ed;
+}
+
+mid {
+  flex: 2;
+  margin: 0;
+  display: block;
+  padding: 30px 0 60px;
+  background-color: #fcfcfc;
+}
+
+mid img.loading {
+  display: none;
+  height: 24px;
+  width: 24px; 
+  margin: 24px auto 0 auto;
+}
+
+mid img.loading.active {
+  display: block;
+}
+
+mid .empty {
+  text-align: center;
+}
+
+.results {
+  width: 630px;
+  margin: auto;
+}
+
+.publication {
+  padding: 0 0 24px;
+}
+
+.publication.active .expanded {
+  display: block;
+}
+
+.publication.active .condensed {
+  display: none;
+}
+
+.publication .expanded {
+  display: none;
+}
+
+.publication .condensed {
+  display: block;
+}
+
+.title {
+  margin: 0 0 14px;
+  line-height: 1.2;
+}
+
+.meta {
+  font: 12px/1.0 "Roboto", "Arial", sans-serif;
+  margin: 0 0 8px;
+}
+
+.meta .arxiv-id, .meta .submission-date {
+  background-color: #4885ed; 
+  color: white;
+  padding: 2px 4px;
+  margin: 0 4px 0 0;
+  cursor: pointer;
+  transition: background-color 0.25s;
+}
+
+.meta .arxiv-id:hover, .meta .submission-date:hover {
+  background-color: #7bb8ff;
+}
+
+.meta a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.authors {
+  font: 14px/1.2 "Roboto", "Arial", sans-serif;
+  margin: 0 0 8px;
+}
+
+.abstract {
+  font-size: 14px;
+  margin: 0 0 8px;
+}
+
+.abstract button {
+  background-color: #d8d8d8;
+  border: 0;
+  margin: 0 0 0 4px;
+  cursor: pointer;
+  transition: background-color 0.25s;
+}
+
+.abstract button:hover {
+  background-color: #e8e8e8;
+  outline: 0;
+}

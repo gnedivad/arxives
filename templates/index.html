@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>arXivES - Search arXiv quickly</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Playfair+Display|Roboto" />
+    <link rel="stylesheet" href={{ url_for('static', filename='css/style.css') }} />
+    <link rel="icon" type="image/png" sizes="32x32" href={{ url_for('static', filename='img/favicon.png') }}>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript" async
+      src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+  </head>
+  <body>
+    <div class="main">
+      <header>
+        <h1>arXivES</h1>
+        <p>search arXiv quickly</p>
+        <input type="text" placeholder="holographs, generative adversarial networks ..." autofocus />
+      </header>
+      <mid>
+        <div class="results"></div>
+        <img class="loading" src={{ url_for('static', filename='img/loading.gif') }} />
+      </mid>
+    </div>
+    <script type="text/template" class="publications-template">
+      <% if (noSearch) { %>
+        <p class="empty">No results yet! Search for something or select a filter.</p>
+      <% } else if (publications.length === 0 && appendResults) { %>
+        <p class="empty append">No more results.</p>
+      <% } else if (publications.length === 0) { %>
+        <p class="empty">No results found.</p>
+      <% } %>
+
+      <% publications.forEach(function(publication) { %>
+        <div class="publication">
+          <h2 class="title"><%= publication.title %></h2>
+                    
+          <div class="meta">
+            <span class="submission-date"><%= publication.submission_date %></span>
+            <a href="<%= publication.arxiv_url %>"><span class="arxiv-id"><%= publication.arxiv_id %></span></a>
+          </div>
+
+          <div class="authors"><%= publication.authors.join(', ') %></div>
+
+          <div class="condensed">
+            <p class="abstract">
+              <span><%= publication.condensedAbstract %></span>
+              <button class="toggle">More</button>
+            </p>
+          </div>
+
+          <div class="expanded">
+            <p class="abstract">
+              <span><%= publication.abstract %></span>
+              <button class="toggle">Less</button>
+            </p>
+          </div>
+
+
+        </div>
+      <% }); %>
+    </script>
+
+    <script src={{ url_for('static', filename='js/underscore.min.js') }}></script>
+    <script src={{ url_for('static', filename='js/search-model.js') }}></script>
+    <script src={{ url_for('static', filename='js/search-view.js') }}></script>
+  </body>
+</html>
