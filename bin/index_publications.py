@@ -5,6 +5,8 @@ import os
 from elasticsearch import Elasticsearch
 
 
+PRINT_EVERY = 500
+
 def main():
   client = Elasticsearch()
 
@@ -88,10 +90,13 @@ def main():
     try:
       data = client.index(
         index="arxives", doc_type="publication", body=publication)
-      # do something with `data`?
     except Exception as e:
       # hops into the debugger; should not happen
       import pdb; pdb.set_trace()
+
+    if (i+1) % PRINT_EVERY == 0:
+      print "Indexed %d out of %d publications" % (i+1, len(publications))
+
 
 if __name__ == "__main__":
   main()
