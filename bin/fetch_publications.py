@@ -1,6 +1,12 @@
 #!/usr/bin/env python
+"""
+This script fetches publications from arxiv.org and writes them to a directory
+called `out/`.
+"""
 import json
+import os
 import re
+import sys
 import time
 import urllib2
 from bs4 import BeautifulSoup
@@ -56,12 +62,45 @@ def get_pdf_url_from_soup(soup):
   return pdf_url
 
 def main():
-  i = 1 
-  batch_size = 100
+  if len(sys.argv) < 2:
+    print("Usage: ./fetch_publications.py <Month> <Year>")
+    print("- Month: The first three letters of the month to be fetched")
+    print("  e.g. 'Jan', 'Feb', etc.")
+    print("- Year: The full year to be fetched e.g. '2016'")
+    print("There's no explicit error checking, so plz follow directions.")
+    return
 
-  while i <= 7912:
-    html = urllib2.urlopen("https://arxiv.org/abs/1501.0%04d" % i).read()
+  month_str = MONTHS_TO_NUMBERS[sys.argv[1]].zfill(2)
+  year_str = sys.argv[2][-2:]
+
+  read_files = set([])
+
+  i = 1
+  batch_size = 1000
+
+  if not os.path.exists("out"):
+    os.makedirs("out")
+
+  while True:
+    try:
+      html = urllib2.urlopen(
+        "https://arxiv.org/abs/%s%s.%05d" % (year_str, month_str, i)
+      ).read()
+    except urllib2.HTTPError as error:
+      print "Stopped short of %s%s.%05d" % (year_str, month_str, i)
+      return
     soup = BeautifulSoup(html, "html.parser")
+
+    # Reads from file if it exists the first time the filename appears; else
+    # appends to the existing value of data
+    filename = "out/%s%s_%03d.json" % (year_str, month_str, i / batch_size)
+    if filename not in read_files:
+      read_files.add(filename)
+      try:
+        with open(filename) as f:
+          data = json.load(f)
+      except:
+        data = []
 
     arxiv_id = get_arxiv_id_from_soup(soup)
     title = get_title_from_soup(soup)  
@@ -70,14 +109,6 @@ def main():
     abstract = get_abstract_from_soup(soup)
     subjects_ids = get_subjects_ids_from_soup(soup)
     pdf_url = get_pdf_url_from_soup(soup)
-
-    filename = "out/%03d.json" % (i / batch_size)
-    
-    try:
-      with open(filename) as f:
-        data = json.load(f)
-    except:
-      data = []
 
     data.append({
       "arxiv_id": arxiv_id,
@@ -94,7 +125,7 @@ def main():
 
     time.sleep(0.1)
     if i % 10 == 0:
-      print "Finished 1501.0%04d" % i
+      print "Finished %s%s.%05d" % (year_str, month_str, i)
     i += 1
 
 if __name__ == "__main__":
