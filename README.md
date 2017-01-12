@@ -1,5 +1,5 @@
 # arXivES
-This directory contains the production version of `arXivES`, which searches `arXiv` with Elasticsearch. As of Jan 8, 2017, I have indexed publications from Jan 2015 in production.
+This directory contains the production version of `arXivES`, which searches `arXiv` with Elasticsearch. As of Jan 10, 2017, I have indexed publications from Jan to Mar 2015 in production.
 
 This README will explain how to get `arXivES` running on your local machine.
 
@@ -17,7 +17,7 @@ In the virtual environment (called `arxivesenv` here), install the project depen
 
 ## Seeding Publications
 
-The publications need to be indexed in Elasticsearch in order for search to work. I've compressed the ~8k publications from Jan 2015 in `arxives.tar.gz`. You can extract the data from this file to get started immediately:
+The publications need to be indexed in Elasticsearch in order for search to work. I've compressed ~25k publications from Jan to Mar 2015 in `arxives.tar.gz`. You can extract the data from this file to get started immediately:
 
 ```bash
 (arxivesenv) $ cd bin/; tar -xvzf arxives.tar.gz
@@ -36,6 +36,8 @@ Then, index the data in Elasticsearch:
 ```
 
 ## Running arXivES
+You're ready to run the Flask app!
+
 ```bash
 (arxivesenv) $ python run.py
 ```
